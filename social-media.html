@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact us</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-sosmed.css">
+</head>
+        <body>
+            <nav>
+                <div class="wrapper">
+                    <div class="logo"><a href="">SN POLAROID</a></div>
+                    <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div> <!-- Hamburger icon -->
+                    <div class="menu">
+                        <ul>
+                            <li><a href="index.html" class="tbl-abu">Home</a></li>
+                            <li><a href="Product.html" target="_blank">Product</a></li>
+                            <li><a href="pesanan.html">Pesanan</a></li>
+                            <li><a href="keranjang.html">Keranjang <i class="fas fa-shopping-cart"></i></a></li> <!-- Ikon keranjang -->
+                            <li><a href="social-media.html">Contact Us</a></li>
+                            <li><a href="login.html">Login <i class="fas fa-user"></i></a></li> <!-- Ikon login -->
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <script>
+                let isLoggedIn = localStorage.getItem("isLoggedIn");
+                if (!isLoggedIn) {
+                    alert("Silakan login terlebih dahulu!");
+                    window.location.href = "login.html";
+                }
+            </script>
+
+
+            <div class="container">
+                <form action="#" method="post">
+                    <h2>Contact Us</h2>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+        
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+        
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+        
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+            <div class="social-media">
+                <a href="https://www.facebook.com/noni.utari.52?mibextid=ZbWKwL"><i class="fab fa-facebook"></i>
+                    <img border="0" src="g.sosmed/facebook.png" width="80" height="80" taget="_blank">
+                <a href="https://instagram.com/nonimutiaa?utm_source=qr&igshid=MThlNWY1MzQwNA==">
+                    <img border="0" src="g.sosmed/instagram.png" width="80" height="80">
+                <a href="https://wa.me/qr/IO37KS4TH5T6O1">
+                    <img border="0" src="g.sosmed/whatsapp.png" width="80" height="80">
+            </div>     
+</body>
+</html>

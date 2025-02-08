@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <div class="wrapper">
+        <div class="logo"><a href="">SN POLAROID</a></div>
+        <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div> <!-- Hamburger icon -->
+        <div class="menu">
+            <ul>
+                <li><a href="index.html" class="tbl-abu">Home</a></li>
+                <li><a href="Product.html" target="_blank">Product</a></li>
+                <li><a href="pesanan.html">Pesanan</a></li>
+                <li><a href="keranjang.html">Keranjang <i class="fas fa-shopping-cart"></i></a></li> <!-- Ikon keranjang -->
+                <li><a href="social-media.html">Contact Us</a></li>
+                <li><a href="login.html">Login <i class="fas fa-user"></i></a></li> <!-- Ikon login -->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script>
+  let isLoggedIn = localStorage.getItem("isLoggedIn");
+  if (!isLoggedIn) {
+      alert("Silakan login terlebih dahulu!");
+      window.location.href = "login.html";
+  }
+</script>
+
+
+  <script>
+    function addToCart(productName) {
+        // Ambil data keranjang dari localStorage (jika ada)
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+        // Cek apakah produk sudah ada di keranjang
+        let productIndex = cart.findIndex(item => item.name === productName);
+        if (productIndex !== -1) {
+            cart[productIndex].quantity += 1; // Tambah jumlah jika produk sudah ada
+        } else {
+            cart.push({ name: productName, quantity: 1 }); // Tambahkan produk baru
+        }
+  
+        // Simpan kembali ke localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+  
+        alert(productName + " telah ditambahkan ke keranjang!");
+    }
+  </script>
+<div class="row row-cols-1 row-cols-md-4 g-4" style="margin: 0 auto;">
+  <div class="col">
+    <div class="card">
+      <img src="g.product/pola biasa.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">Polaroid Biasa</h2>
+        <h5>RP.10.000/25PCS</h5>
+        <p class="card-text">Kode : P1</p>
+        <p class="card-text">Tanpa Laminasi</p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+      </div>
+        <button class="btn btn-primary w-100" onclick="addToCart('Polaroid Biasa', 'RP.10.000/25PCS', 'P1')">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="g.product/pola pastel.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">Polaroid Pastel</h2>
+        <h5>RP.10.000/25PCS</h5>
+        <p class="card-text">Kode : P2</p>
+        <p class="card-text">Request Warna</p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+      </div>
+        <button class="btn btn-primary w-100" onclick="addToCart('Polaroid Pastel', 'RP.10.000/25PCS', 'P2')">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="g.product/pola strip.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">Polaroid Strip</h2>
+        <h5>RP.10.000/8PCS</h5>
+        <p class="card-text">Kode : P3</p>
+        <p class="card-text">Ukuran 6cm * 18cm</p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+      </div>
+      <button class="btn btn-primary w-100" onclick="addToCart('Polaroid Strip', 'RP.10.000/25PCS', 'P3')">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="g.product/pola box.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">Photo StripBox</h2>
+        <h5>RP.10.000/5pcs</h5>
+        <p class="card-text">Kode : P4</p>
+        <p class="card-text">Ukuran 5R</p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+      </div>
+         <button class="btn btn-primary w-100" onclick="addToCart('Polaroid StripBox', 'RP.10.000/25PCS', 'P4')">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="g.product/pola background.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">Polaroid background</h2>
+        <h5>RP.10.000/25pcs</h5>
+        <p class="card-text">Kode : P5</p>
+        <p class="card-text">Bisa Request background</p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+      </div>
+        <button class="btn btn-primary w-100" onclick="addToCart('Polaroid Background', 'RP.10.000/25PCS', 'P5')">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="g.product/pola ukuran.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">Polaroid Request</h2>
+        <h5>RP.10.000</h5>
+        <p class="card-text">Kode : P6</p>
+        <p class="card-text">Ukuran 5R - 10R</p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+      </div>
+        <button class="btn btn-primary w-100" onclick="addToCart('Polaroid Request', 'RP.10.000/25PCS', 'P6')">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="g.product/poster.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">Poster Aesthetic</h2>
+        <h5>RP.10.000</h5>
+        <p class="card-text">Kode : P7</p>
+        <p class="card-text">Custom Ukuran</p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+      </div>
+        <button class="btn btn-primary w-100" onclick="addToCart('Polaroid Aesthetic', 'RP.10.000/25PCS', 'P7')">Tambah ke Keranjang</button>      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="g.product/stiker nama.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">Stiker Nama</h2>
+        <h5>RP.1.500/pcs</h5>
+        <p class="card-text">Kode : S1</p>
+        <p class="card-text">Bahan Tebal dan sudah Laminasi</p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+      </div>
+        <button class="btn btn-primary w-100" onclick="addToCart('Stiker Nama', 'RP.1.500', 'S1')">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+    <div class="col">
+      <div class="card">
+        <img src="g.product/stiker logo.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">Stiker Logo</h2>
+          <h5>RP.10.000/40pcs</h5>
+          <p class="card-text">Kode : S2</p>
+          <p class="card-text">Ukuran 5*5 sudah laminasi</p>
+          <div class="rating">
+            <span onclick="rateProduct(1)">★</span>
+            <span onclick="rateProduct(2)">★</span>
+            <span onclick="rateProduct(3)">★</span>
+            <span onclick="rateProduct(4)">★</span>
+            <span onclick="rateProduct(5)">★</span>
+        </div>
+          <button class="btn btn-primary w-100" onclick="addToCart('Stiker Logo', 'RP.10.000/40PCS', 'S2')">Tambah ke Keranjang</button>      </div>
+    </div>
+  </div>
+    <div class="col">
+      <div class="card">
+        <img src="g.product/stiker tumblr.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">Stiker Tumblr</h2>
+          <h5>RP.10.000/40pcs</h5>
+          <p class="card-text">Kode : S3</p>
+          <p class="card-text">Isi 40pcs, sudah dicutting</p>
+          <div class="rating">
+            <span onclick="rateProduct(1)">★</span>
+            <span onclick="rateProduct(2)">★</span>
+            <span onclick="rateProduct(3)">★</span>
+            <span onclick="rateProduct(4)">★</span>
+            <span onclick="rateProduct(5)">★</span>
+        </div>
+        <button class="btn btn-primary w-100" onclick="addToCart('Stiker Tumblr', 'RP.10.000/40PCS', 'P2')">Tambah ke Keranjang</button>        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img src="g.product/stiker bias.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">Stiker Bias</h2>
+          <h5>RP.10.000</h5>
+          <p class="card-text">Kode : S3</p>
+          <p class="card-text">Bisa Request Ukuran, tanpa cutting</p>
+          <div class="rating">
+            <span onclick="rateProduct(1)">★</span>
+            <span onclick="rateProduct(2)">★</span>
+            <span onclick="rateProduct(3)">★</span>
+            <span onclick="rateProduct(4)">★</span>
+            <span onclick="rateProduct(5)">★</span>
+        </div>
+        <button class="btn btn-primary w-100" onclick="addToCart('Stiker Bias', 'RP.10.000', 'S3')">Tambah ke Keranjang</button>        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img src="g.product/laminasi.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">Laminasi</h2>
+          <h5>RP.2.000</h5>
+          <p class="card-text">Kode : L</p>
+          <p class="card-text">Hologram, Glossy, Doft</p>
+          <div class="rating">
+            <span onclick="rateProduct(1)">★</span>
+            <span onclick="rateProduct(2)">★</span>
+            <span onclick="rateProduct(3)">★</span>
+            <span onclick="rateProduct(4)">★</span>
+            <span onclick="rateProduct(5)">★</span>
+        </div>
+          <button class="btn btn-primary w-100" onclick="addToCart('Laminasi', 'RP.2.000', 'L')">Tambah ke Keranjang</button>        
+        </div>
+      </div>
+    </div>
+</body>
+</html>

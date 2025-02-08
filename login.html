@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="card p-4" style="width: 400px;">
+            <h2 class="text-center">Login</h2>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Masuk sebagai</label>
+                    <select id="role" class="form-control" required>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            <p class="text-center mt-3">Belum punya akun? <a href="register.html">Daftar</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let role = document.getElementById("role").value;
+    
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+    
+            // Cek apakah email dan password cocok
+            let foundUser = users.find(user => user.email === email && user.password === password && user.role === role);
+            
+            if (foundUser) {
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem("role", role);
+                localStorage.setItem("email", email);
+    
+                alert("Login berhasil!");
+                
+                if (role === "admin") {
+                    window.location.href = "index.html";
+                } else {
+                    window.location.href = "keranjang.html";
+                }
+            } else {
+                alert("Email, password, atau peran salah!");
+            }
+        });
+    </script>
+    
+</body>
+</html>
