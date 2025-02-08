@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
 <body>
     <nav>
         <div class="wrapper">
-            <div class="logo"><a href="">SN POLAROID</a></div>
+            <div class="logo"><a href="#">SN POLAROID</a></div>
             <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
             <div class="menu">
                 <ul>
@@ -31,7 +31,7 @@
             window.location.href = "login.html";
         }
     </script>
-    
+
     <div class="container mt-5">
         <h2>Keranjang Belanja</h2>
         <table class="table">
@@ -102,53 +102,49 @@
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     if (!name || !address || !phone || !zipFile || !paymentProof) {
-        alert("Harap isi semua data dan unggah file yang diperlukan!");
+        alert("⚠️ Harap isi semua data dan unggah file yang diperlukan!");
         return;
     }
 
-    let readerZip = new FileReader();
-    let readerProof = new FileReader();
+    if (cart.length === 0) {
+        alert("⚠️ Keranjang belanja kosong! Tambahkan produk terlebih dahulu.");
+        return;
+    }
 
-    readerZip.onload = function (e) {
-        readerProof.onload = function (e2) {
-            let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-            cart.forEach(item => {
-                orders.push({
-                    name: item.name,
-                    quantity: item.quantity,
-                    status: "Menunggu Konfirmasi",
-                    customer: { name, address, phone },
-                    zipFile: { name: zipFile.name, data: e.target.result }, // Simpan dalam Base64 dengan header data
-                    paymentProof: { name: paymentProof.name, data: e2.target.result }
-                });
-            });
+    // Konversi file ke URL blob agar bisa diunduh nanti
+    let zipUrl = URL.createObjectURL(zipFile);
+    let proofUrl = URL.createObjectURL(paymentProof);
 
-            localStorage.setItem("orders", JSON.stringify(orders));
-            localStorage.removeItem("cart");
-            alert("Pesanan berhasil dikirim! Menunggu konfirmasi pembayaran.");
-            closeModal();
-            window.location.href = "pesanan.html";
+    cart.forEach(item => {
+        let newOrder = {
+            customer: { name, address, phone },
+            product: item.name,
+            quantity: item.quantity,
+            status: "Menunggu Konfirmasi",
+            zipFile: { name: zipFile.name, data: zipUrl },
+            paymentProof: { name: paymentProof.name, data: proofUrl }
         };
 
-        readerProof.readAsDataURL(paymentProof);
-    };
+        orders.push(newOrder);
+    });
 
-    readerZip.readAsDataURL(zipFile);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.removeItem("cart");
+
+    alert("🎉 Pesanan berhasil dibuat! Anda akan dialihkan ke halaman pesanan.");
+    closeModal();
+
+    setTimeout(() => {
+        window.location.href = "pesanan.html";
+    }, 1500);
 }
-
-
-
-        function clearCart() {
-            localStorage.removeItem("cart");
-            loadCart();
-        }
 
         function loadCart() {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             let cartTable = document.getElementById("cart-items");
             cartTable.innerHTML = "";
-            
 
             cart.forEach((item, index) => {
                 cartTable.innerHTML += `
@@ -169,8 +165,5 @@
 
         window.onload = loadCart;
     </script>
-
-    
-
 </body>
 </html>

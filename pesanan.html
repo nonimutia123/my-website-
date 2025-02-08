@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +10,12 @@
 <body>
     <nav>
         <div class="wrapper">
-            <div class="logo"><a href="">SN POLAROID</a></div>
+            <div class="logo"><a href="#">SN POLAROID</a></div>
             <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
             <div class="menu">
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html" target="_blank">Product</a></li>
+                    <li><a href="product.html">Product</a></li>
                     <li><a href="pesanan.html">Pesanan</a></li>
                     <li><a href="keranjang.html">Keranjang</a></li>
                     <li><a href="social-media.html">Contact Us</a></li>
@@ -47,24 +47,41 @@
     <script>
         function loadOrders() {
             let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
             let orderTable = document.getElementById("orders-list");
-    
             orderTable.innerHTML = "";
-    
+
+            // Jika pesanan kosong, coba ambil dari keranjang
+            if (orders.length === 0 && cart.length > 0) {
+                orders = cart.map(item => ({
+                    customer: {
+                        name: "Pelanggan",
+                        address: "Alamat belum diisi",
+                        phone: "Nomor belum diisi"
+                    },
+                    name: item.name,
+                    quantity: item.quantity,
+                    status: "Menunggu Konfirmasi",
+                    zipFile: item.zipFile || null,
+                    paymentProof: item.paymentProof || null
+                }));
+                localStorage.setItem("orders", JSON.stringify(orders));
+            }
+
             if (orders.length === 0) {
-                orderTable.innerHTML = "<tr><td colspan='8'>Belum ada pesanan</td></tr>";
+                orderTable.innerHTML = "<tr><td colspan='8' class='text-center'>Belum ada pesanan</td></tr>";
                 return;
             }
-    
+
             orders.forEach((order, index) => {
-                let fileZipLink = order.zipFile 
-                    ? `<a href="#" onclick="downloadFile('${order.zipFile.data}', '${order.zipFile.name}')" class="btn btn-success btn-sm">Download ZIP</a>` 
-                    : "Tidak ada file";
-    
-                let filePaymentLink = order.paymentProof 
-                    ? `<a href="#" onclick="downloadFile('${order.paymentProof.data}', '${order.paymentProof.name}')" class="btn btn-primary btn-sm">Download Bukti</a>` 
-                    : "Tidak ada bukti";
-    
+                let fileZipLink = order.zipFile && order.zipFile.data
+                    ? `<a href="${order.zipFile.data}" download="${order.zipFile.name}" class="btn btn-success btn-sm">Download ZIP</a>`
+                    : "<span class='text-muted'>Tidak ada file</span>";
+
+                let filePaymentLink = order.paymentProof && order.paymentProof.data
+                    ? `<a href="${order.paymentProof.data}" download="${order.paymentProof.name}" class="btn btn-primary btn-sm">Download Bukti</a>`
+                    : "<span class='text-muted'>Tidak ada bukti</span>";
+
                 let row = `<tr>
                     <td>${order.customer.name}</td>
                     <td>${order.customer.address}</td>
@@ -82,67 +99,32 @@
                     <td>${fileZipLink} <br> ${filePaymentLink}</td>
                     <td><button class="btn btn-danger btn-sm" onclick="deleteOrder(${index})">Hapus</button></td>
                 </tr>`;
-    
+
                 orderTable.innerHTML += row;
             });
         }
-    
-        function downloadFile(base64Data, fileName) {
-    if (!base64Data || !fileName) {
-        alert("File tidak ditemukan!");
-        return;
-    }
 
-    // Jika Base64 tidak memiliki header "data:", tambahkan berdasarkan ekstensi
-    if (!base64Data.startsWith("data:")) {
-        let fileType = fileName.endsWith(".zip") ? "application/zip" : "image/png"; // Bisa diubah sesuai kebutuhan
-        base64Data = `data:${fileType};base64,${base64Data.split(",")[1]}`;
-    }
-
-    let link = document.createElement("a");
-    link.href = base64Data;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-    
         function updateStatus(index, newStatus) {
             let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            if (!orders[index]) return;
+
             orders[index].status = newStatus;
             localStorage.setItem("orders", JSON.stringify(orders));
-            alert("Status pesanan diperbarui!");
+            alert("✅ Status pesanan diperbarui!");
         }
-    
+
         function deleteOrder(index) {
             let orders = JSON.parse(localStorage.getItem("orders")) || [];
-            orders.splice(index, 1);
-            localStorage.setItem("orders", JSON.stringify(orders));
-            loadOrders();
+            if (!orders[index]) return;
+
+            if (confirm("Apakah Anda yakin ingin menghapus pesanan ini?")) {
+                orders.splice(index, 1);
+                localStorage.setItem("orders", JSON.stringify(orders));
+                loadOrders();
+            }
         }
-    
+
         window.onload = loadOrders;
     </script>
-    <script>
-        function downloadFile(base64Data, fileName) {
-            // Cek tipe file berdasarkan ekstensi
-            let fileType = fileName.endsWith(".zip") ? "application/zip" : "image/png"; // Ubah sesuai tipe file
-            
-            // Jika data Base64 tidak mengandung "data:...", tambahkan header yang sesuai
-            if (!base64Data.startsWith("data:")) {
-                base64Data = `data:${fileType};base64,${base64Data.split(",")[1]}`;
-            }
-    
-            let link = document.createElement("a");
-            link.href = base64Data;
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
-    
-    
 </body>
 </html>
